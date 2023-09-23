@@ -1,5 +1,7 @@
 # GANForge
 
+[![Python Package Tests](https://github.com/quadeer15sh/GANForge/actions/workflows/python-package.yml/badge.svg)](https://github.com/quadeer15sh/GANForge/actions/workflows/python-package.yml)
+
 Python library for a wide variety of GANs (Generative Adversarial Networks) based on TensorFlow and Keras.
 
 # Table of Contents
