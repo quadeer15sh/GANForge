@@ -133,7 +133,7 @@ def test_dcgan_success4():
     latent_dim = 128
     random_latent_vectors = tf.random.normal(shape=(2, latent_dim))
     model = DCGAN(input_shape=(32, 32, 1), latent_dim=128)
-    output = model(random_latent_vectors)
+    output = model.predict(random_latent_vectors)
     assert output.shape == (2, 32, 32, 1)
 
 
@@ -194,4 +194,4 @@ def test_dcgan_error6():
     model_input = np.random.randn(2, 2)
     model = DCGAN(input_shape=(32, 32, 1), latent_dim=128)
     with pytest.raises(Exception):
-        model(model_input)
+        model.predict(model_input)
