@@ -16,7 +16,7 @@ Python library for a wide variety of GANs (Generative Adversarial Networks) base
 To download the GANForge model from pypi please use the following pip command in your 
 command prompt/terminal
 ```
-pip install GANForge
+pip install git+https://github.com/quadeer15sh/GANForge.git
 ```
 
 # Quick Start 

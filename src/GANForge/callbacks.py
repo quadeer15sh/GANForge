@@ -26,8 +26,8 @@ class DCGANVisualization(Callback):
         if type(self.model).__name__ != 'DCGAN':
             raise ValueError(f"Invoked for model {type(self.model).__name__} ! This callback is available only for DCGAN models")
 
-        if epoch % self.n_epochs == 0:
-            print(f"Epoch: {epoch}, Generated images from randomly sampled latent vectors")
+        if (epoch+1) % self.n_epochs == 0:
+            print(f"\nEpoch: {epoch+1}, Generated images from randomly sampled latent vectors\n")
             latent_dim = self.model.latent_dim
             random_latent_vectors = tf.random.normal(shape=(10, latent_dim))
             fake = self.model.generator(random_latent_vectors)
