@@ -3,8 +3,6 @@ import setuptools
 with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
 
-REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
-
 setuptools.setup(
     name="GANForge",
     version="0.0.1",
@@ -24,5 +22,5 @@ setuptools.setup(
     ],
     python_requires='>=3.9',
     package_dir={'': 'src'},
-    install_requires=REQUIREMENTS
+    install_requires=['tensorflow', 'keras', 'matplotlib', 'seaborn']
 )
