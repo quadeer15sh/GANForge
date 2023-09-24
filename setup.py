@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     url='https://github.com/quadeer15sh/GANForge',
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages('src/'),
     keywords=['GANs', 'tensorflow', 'keras'],
     classifiers=[
         "Programming Language :: Python :: 3",
