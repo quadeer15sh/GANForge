@@ -40,7 +40,7 @@ model.fit(train_ds, epochs=25)
 # Examples
 
 Please feel free to explore through the notebook files on each of the GAN models available in GANForge
-- [Jupyter Notebooks](examples/README.md)
+- [Jupyter Notebooks](examples/)
 - [Kaggle Implementations]()
 
 # Supported GANs
@@ -51,11 +51,13 @@ is available or not
 | Sr. | GAN Architecture | Status                                        |  
 |-----|------------------|-----------------------------------------------|  
 | 1   | DC GAN           | <span style="color:green">Available</span>    |  
-| 3   | Conditional GAN  | <span style="color:orange">In Progress</span> |
-| 4   | Info GAN         | <span style="color:orange">In Progress</span> |
-| 5   | Pix2Pix GAN      | <span style="color:orange">In Progress</span> |
-| 6   | Cycle GAN        | <span style="color:orange">In Progress</span> |
-| 7   | Attention GAN    | <span style="color:orange">In Progress</span> |
+| 2   | Conditional GAN  | <span style="color:green">Available</span>    |
+| 3   | Info GAN         | <span style="color:orange">In Progress</span> |
+| 4   | SR GAN           | <span style="color:orange">In Progress</span> |
+| 5   | ESR GAN          | <span style="color:orange">In Progress</span> |
+| 6   | Pix2Pix GAN      | <span style="color:orange">In Progress</span> |
+| 7   | Cycle GAN        | <span style="color:orange">In Progress</span> |
+| 8   | Attention GAN    | <span style="color:orange">In Progress</span> |
 
 # Custom Callbacks
 
