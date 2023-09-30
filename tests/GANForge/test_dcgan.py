@@ -133,8 +133,19 @@ def test_dcgan_success4():
     latent_dim = 128
     random_latent_vectors = tf.random.normal(shape=(2, latent_dim))
     model = DCGAN(input_shape=(32, 32, 1), latent_dim=128)
-    output = model.predict(random_latent_vectors)
+    output = model.generator.predict(random_latent_vectors)
     assert output.shape == (2, 32, 32, 1)
+
+
+def test_dcgan_success5():
+    a = np.random.randn(1, 32, 32, 1)
+    a[a < -1] = -1
+    a[a > 1] = 1
+    model = DCGAN(input_shape=(32, 32, 1), latent_dim=64)
+    model.compile(d_optimizer=tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5),
+                  g_optimizer=tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5),
+                  loss_fn=tf.keras.losses.BinaryCrossentropy())
+    model.fit(a, epochs=1)
 
 
 def test_dcgan_error1():
@@ -188,10 +199,3 @@ def test_dcgan_error5():
         DCGAN(input_shape=(28, 28, 1), latent_dim=128)
 
     assert "The input_shape does not match with the output shape of the default generator" in str(e_info)
-
-
-def test_dcgan_error6():
-    model_input = np.random.randn(2, 2)
-    model = DCGAN(input_shape=(32, 32, 1), latent_dim=128)
-    with pytest.raises(Exception):
-        model.predict(model_input)

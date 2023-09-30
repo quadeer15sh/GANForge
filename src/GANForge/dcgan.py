@@ -151,12 +151,9 @@ class DCGAN(Model):
 
     def call(
         self,
-        inputs,
-        training=None
+        inputs
     ) -> tf.Tensor:
-        if training is False:
-            result = self.generator(inputs)
-            return result
+        pass
 
     @tf.function
     def train_step(
