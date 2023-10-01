@@ -2,10 +2,11 @@ from typing import Union, Optional, Tuple
 
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import (Conv2D, Dropout, Flatten, Dense, Input,
                                      BatchNormalization, Conv2DTranspose,
                                      LeakyReLU, Reshape, Embedding, Concatenate)
+from tensorflow.keras.models import Sequential, Model
+
 from GANForge.dcgan import DCGAN
 
 
@@ -15,6 +16,8 @@ class ConditionalDCGAN(DCGAN):
     involves the conditional generation of images. In cDCGANs the conditional setting is applied in a way such that both the generator and
     discriminator are conditioned on some sort of auxiliary information such as class labels. As a result this GAN can learn multiple modes of
     mapping from inputs to outputs by being fed with different contextual information in the form of class labels.
+
+    Reference: https://arxiv.org/pdf/1411.1784.pdf
     """
     def __init__(
         self,

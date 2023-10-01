@@ -21,7 +21,9 @@ pip install git+https://github.com/quadeer15sh/GANForge.git
 
 # Quick Start 
 
-You can get started with building GANs in just a few lines of code, here is an example.
+You can get started with building GANs in just a few lines of code.
+
+### Example: 
 
 ```python
 import tensorflow as tf
@@ -50,7 +52,7 @@ is available or not
 
 | Sr. | GAN Architecture | Status                                        |  
 |-----|------------------|-----------------------------------------------|  
-| 1   | DC GAN           | <span style="color:green">Available</span>    |  
+| 1   | DC GAN           | <span style="color:green">Available</span>                        |  
 | 2   | Conditional GAN  | <span style="color:green">Available</span>    |
 | 3   | Info GAN         | <span style="color:orange">In Progress</span> |
 | 4   | SR GAN           | <span style="color:orange">In Progress</span> |
@@ -63,9 +65,10 @@ is available or not
 
 Custom callbacks available for usage during your training
 
-| Sr. | Callback           | GAN Applicable |  
-|-----|--------------------|----------------|  
-| 1   | DCGANVisualization | DC GAN         |  
+| Sr. | Callback                    | GAN Applicable    |  
+|-----|-----------------------------|-------------------|  
+| 1   | DCGANVisualization          | DC GAN            |
+| 2   | ConditionalGANVisualization | Conditional DCGAN |
 
 ### Example: 
 ```python
