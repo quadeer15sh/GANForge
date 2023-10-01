@@ -1,10 +1,11 @@
-from typing import Union, Optional, Tuple
 from dataclasses import dataclass
+from typing import Union, Optional, Tuple
+
 import tensorflow as tf
-from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import (Conv2D, Dropout, Flatten, Dense, Input,
                                      BatchNormalization, Conv2DTranspose,
                                      LeakyReLU, Reshape)
+from tensorflow.keras.models import Sequential, Model
 
 
 @dataclass(frozen=True)
