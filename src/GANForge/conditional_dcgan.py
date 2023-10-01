@@ -122,7 +122,7 @@ class ConditionalDCGAN(DCGAN):
         real, label = data
 
         if len(label.shape) > 1:
-            label = np.argmax(label, axis=1)
+            label = tf.math.argmax(label, axis=1)
 
         batch_size = real.shape[0]
         random_latent_vectors = tf.random.normal(shape=(batch_size, self.latent_dim))

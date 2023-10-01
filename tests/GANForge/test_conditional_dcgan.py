@@ -148,6 +148,19 @@ def test_conditional_dcgan_success4():
 
 
 def test_conditional_dcgan_success5():
+    a = np.random.randn(2, 32, 32, 1)
+    a[a < -1] = -1
+    a[a > 1] = 1
+    b = np.random.randint(0, 4, 2)
+    b = np.eye(4)[b]
+    model = ConditionalDCGAN(input_shape=(32, 32, 1), latent_dim=64, num_classes=3)
+    model.compile(d_optimizer=tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5),
+                  g_optimizer=tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5),
+                  loss_fn=tf.keras.losses.BinaryCrossentropy())
+    model.fit(a, b, epochs=1)
+
+
+def test_conditional_dcgan_success6():
     latent_dim = 128
     random_latent_vectors = tf.random.normal(shape=(2, latent_dim))
     b = np.random.randint(0, 4, 2)
