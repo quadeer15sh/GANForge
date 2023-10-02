@@ -15,7 +15,13 @@ class _GANInputs:
 
 
 class SRGAN(Model):
+    """
+    Super-resolution (SR) is upsampling a low-resolution image into a higher resolution with minimal information distortion. The motive of SRGAN
+    architecture is to recover finer textures from the image when it is up scaled without compromising its perceptual quality. SRGAN is trained
+    using perceptual loss and adversarial loss as objective loss functions to convert a low resolution image to a high resolution image.
 
+    Reference: https://arxiv.org/abs/1609.04802
+    """
     def __init__(
         self,
         input_shape_lr: Tuple[int, int, int],
@@ -26,12 +32,33 @@ class SRGAN(Model):
         discriminator: Optional[Union[Sequential, Model]] = None,
         generator: Optional[Union[Sequential, Model]] = None,
     ) -> None:
+        """
+        Creates a Tensorflow model for Super Resolution GAN (SRGAN). The SRGAN model is created either using the default model
+        configuration by providing the input shapes for low and high resolution images along with the scaling factor and other hyperparams,
+        or it can be created by passing a custom discriminator and generator.
+
+        :param input_shape_lr: input shape of the lower resolution image in (height, width, channels) format
+        :param input_shape_hr: input shape of the higher resolution image in (height, width, channels) format
+        :param scaling_factor: a scalar value which should be a multiple of low hi-res image dimensions with respect to the low-res image dimensions.
+                               Note: This value currently defaults to and should be defaulted to 4, and will be worked upon in the upcoming updates
+        :param num_residual_blocks: number of residual blocks in the generator
+        :param num_disc_blocks: number of repeated blocks in the discriminator
+        :param discriminator: SRGAN's discriminator network
+        :param generator: SRGAN's generator network
+        :raises: AssertionError if the input shape is not in (height, width, channels) format or if the hi-res image dimensions are not a multiple
+                 of low-res image dimensions by a factor of scaling_factor
+        """
         super().__init__()
         _gan_inputs = self._get_gan_inputs(input_shape_lr, input_shape_hr,
                                            scaling_factor, num_residual_blocks,
                                            num_disc_blocks, discriminator, generator)
         self._generator = _gan_inputs.generator
         self._discriminator = _gan_inputs.discriminator
+        self.scaling_factor = scaling_factor
+        self.num_residual_blocks = num_residual_blocks
+        self.num_disc_blocks = num_disc_blocks
+        self.d_loss_tracker = tf.keras.metrics.Mean(name="d_loss")
+        self.g_loss_tracker = tf.keras.metrics.Mean(name="g_loss")
         self.d_optimizer = None
         self.g_optimizer = None
         self.d_loss = None
@@ -62,34 +89,37 @@ class SRGAN(Model):
     def _validation_checks(input_shape_lr, input_shape_hr, scaling_factor):
         assert input_shape_hr[0] / input_shape_lr[0] == scaling_factor, (f"Error: The SRGAN model scales low resolution images to high resolution "
                                                                          f"by a factor of {scaling_factor}, "
-                                                                         f"found: {input_shape_hr[0] / input_shape_lr[0]}")
+                                                                         f"found: {int(input_shape_hr[0] / input_shape_lr[0])}")
         assert input_shape_hr[1] / input_shape_lr[1] == scaling_factor, (f"Error: The SRGAN model scales low resolution images to high resolution "
                                                                          f"by a factor of {scaling_factor}, "
                                                                          f"found: {input_shape_hr[1] / input_shape_lr[1]}")
         assert len(input_shape_lr) == 3, "The input shape must be provided in the following format (height, width, channels)"
         assert len(input_shape_hr) == 3, "The input shape must be provided in the following format (height, width, channels)"
 
+    @staticmethod
+    def _model_dimension_validation(model_, input_shape, error_message):
+        if type(model_) == Sequential:
+            assert model_.layers[0].input_shape[1:] == input_shape, error_message
+        else:
+            assert model_.inputs[0].shape[1:] == input_shape, error_message
+
     def _get_gan_inputs(
         self,
-        input_shape_lr,
-        input_shape_hr,
-        scaling_factor,
-        num_residual_blocks,
-        num_disc_blocks,
-        discriminator,
-        generator
+        input_shape_lr: Tuple[int, int, int],
+        input_shape_hr: Tuple[int, int, int],
+        scaling_factor: int,
+        num_residual_blocks: int,
+        num_disc_blocks: int,
+        discriminator: Union[Sequential, Model],
+        generator: Union[Sequential, Model]
     ) -> _GANInputs:
         SRGAN._validation_checks(input_shape_lr, input_shape_hr, scaling_factor)
         if discriminator and generator:
             lr_msg = "Error: input_shape_lr does not match the input shape of the generator"
             hr_msg = "Error: input_shape_hr does not match the input shape of the discriminator"
 
-            if type(generator) == Sequential or type(discriminator) == Sequential:
-                assert generator.layers[0].input_shape[1:] == input_shape_lr, lr_msg
-                assert discriminator.layers[0].input_shape[1:] == input_shape_hr, hr_msg
-            else:
-                assert generator.inputs[0].shape[1] == input_shape_lr, lr_msg
-                assert discriminator.inputs[0].shape[1] == input_shape_hr, hr_msg
+            self._model_dimension_validation(discriminator, input_shape_hr, hr_msg)
+            self._model_dimension_validation(generator, input_shape_lr, lr_msg)
 
             _discriminator = discriminator
             _generator = generator
@@ -198,7 +228,7 @@ class SRGAN(Model):
         with tf.GradientTape() as g_tape:
             sr_images = self.generator(lr_images)
             output = self.discriminator(sr_images)
-            adversarial_loss = 1e-3 * self.loss_fn(tf.ones(batch_size, 1), output)
+            adversarial_loss = 1e-3 * self.d_loss(tf.ones(batch_size, 1), output)
             perceptual_loss = self.g_loss(hr_images, sr_images)
 
             loss_gen = perceptual_loss + adversarial_loss
@@ -213,8 +243,3 @@ class SRGAN(Model):
             "d_loss": self.d_loss_tracker.result(),
             "g_loss": self.g_loss_tracker.result(),
         }
-
-
-if __name__ == '__main__':
-    model = SRGAN(input_shape_lr=(32, 32, 3), input_shape_hr=(128, 128, 3))
-    print(model.discriminator.summary())

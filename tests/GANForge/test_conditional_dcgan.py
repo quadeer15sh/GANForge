@@ -1,11 +1,11 @@
-import pytest
-
 import numpy as np
+import pytest
 import tensorflow as tf
-from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (Conv2D, Dropout, Flatten, Dense, Input,
                                      BatchNormalization, Conv2DTranspose,
                                      LeakyReLU, Reshape, Embedding, Concatenate)
+from tensorflow.keras.models import Model
+
 from GANForge.conditional_dcgan import ConditionalDCGAN
 
 

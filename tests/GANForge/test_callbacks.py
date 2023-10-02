@@ -1,12 +1,12 @@
-import pytest
 import numpy as np
+import pytest
 import tensorflow as tf
-from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Dense
-from GANForge.callbacks import DCGANVisualization, ConditionalGANVisualization
+from tensorflow.keras.models import Model, Sequential
 
-from GANForge.dcgan import DCGAN
+from GANForge.callbacks import DCGANVisualization, ConditionalGANVisualization
 from GANForge.conditional_dcgan import ConditionalDCGAN
+from GANForge.dcgan import DCGAN
 
 
 class TestModel(Model):
