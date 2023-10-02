@@ -55,7 +55,7 @@ is available or not
 | 1   | DC GAN           | <span style="color:green">Available</span>                        |  
 | 2   | Conditional GAN  | <span style="color:green">Available</span>    |
 | 3   | Info GAN         | <span style="color:orange">In Progress</span> |
-| 4   | SR GAN           | <span style="color:orange">In Progress</span> |
+| 4   | SR GAN           | <span style="color:green">Available</span> |
 | 5   | ESR GAN          | <span style="color:orange">In Progress</span> |
 | 6   | Pix2Pix GAN      | <span style="color:orange">In Progress</span> |
 | 7   | Cycle GAN        | <span style="color:orange">In Progress</span> |
