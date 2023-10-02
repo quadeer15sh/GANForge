@@ -1,6 +1,5 @@
 from typing import Union, Optional, Tuple
 
-import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import (Conv2D, Dropout, Flatten, Dense, Input,
                                      BatchNormalization, Conv2DTranspose,

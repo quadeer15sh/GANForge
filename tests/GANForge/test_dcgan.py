@@ -1,11 +1,12 @@
-import pytest
-from GANForge.dcgan import DCGAN
 import numpy as np
+import pytest
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (Conv2D, Dropout, Flatten, Dense, Input,
                                      BatchNormalization, Conv2DTranspose,
                                      LeakyReLU, Reshape)
+from tensorflow.keras.models import Sequential
+
+from GANForge.dcgan import DCGAN
 
 
 def test_dcgan_success1():
