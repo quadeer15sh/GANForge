@@ -20,6 +20,8 @@ class PerceptualLoss(Loss):
         :param weights: weights of the pre-trained CNN: VGG-19
         """
         super().__init__()
+        if activation_layer > 20 or activation_layer < 1:
+            raise ValueError(f"VGG-19 cannot take activation layer below 1 or above 20, found {activation_layer}")
         model = VGG19(include_top=False, input_shape=(None, None, 3), weights=weights)
         self.vgg = Model(inputs=model.inputs, outputs=model.layers[activation_layer].output)
 
@@ -28,7 +30,6 @@ class PerceptualLoss(Loss):
         hr_image: tf.Tensor,
         sr_image: tf.Tensor
     ):
-
         assert hr_image.shape[-1] == 3, f"perceptual loss can only take image tensor inputs with channels = 3, found channel {hr_image.shape[-1]}"
         assert sr_image.shape[-1] == 3, f"perceptual loss can only take image tensor inputs with channels = 3, found channel {sr_image.shape[-1]}"
 
