@@ -28,8 +28,6 @@ def test_perceptual_loss_error1():
 
 
 def test_perceptual_loss_error2():
-    a = np.random.randn(2, 32, 32, 1)
-    b = np.random.randn(2, 32, 32, 1)
 
     with pytest.raises(ValueError) as ex:
         PerceptualLoss(activation_layer=21, weights=None)
@@ -38,8 +36,6 @@ def test_perceptual_loss_error2():
 
 
 def test_perceptual_loss_error3():
-    a = np.random.randn(2, 32, 32, 1)
-    b = np.random.randn(2, 32, 32, 1)
 
     with pytest.raises(ValueError) as ex:
         PerceptualLoss(activation_layer=0, weights=None)
